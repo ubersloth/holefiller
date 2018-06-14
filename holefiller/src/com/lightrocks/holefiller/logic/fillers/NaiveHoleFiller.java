@@ -7,9 +7,6 @@ import com.lightrocks.holefiller.model.Edges;
 import com.lightrocks.holefiller.model.Point;
 
 public class NaiveHoleFiller implements HoleFiller {
-	/* (non-Javadoc)
-	 * @see com.lightricks.holefiller.HoleFiller#fillHole(int[][], com.lightricks.holefiller.Edges, com.lightricks.holefiller.interfaces.WeightingLogic)
-	 */
 	@Override
 	public void fillHole(double[][] image, Edges edges, WeightingLogic<?> weightingLogic) {
 		for (int i = edges.min.x; i <= edges.max.x; i++) {
@@ -27,9 +24,7 @@ public class NaiveHoleFiller implements HoleFiller {
 					
 					image[i][j] = weightedValueSum/weightSum;
 				}
-				//System.out.print(image[i][j] + " ");
 			}
-			//System.out.println("");
 		}		
 	}
 }

@@ -5,9 +5,6 @@ import com.lightrocks.holefiller.model.Edges;
 import com.lightrocks.holefiller.model.Point;
 
 public class NaiveEdgeFinder{
-	/* (non-Javadoc)
-	 * @see com.lightricks.holefiller.EdgeFinder#findEdges(int[][])
-	 */
 	public Edges findEdges(double[][] image) {
 		Edges e = new Edges();
 
