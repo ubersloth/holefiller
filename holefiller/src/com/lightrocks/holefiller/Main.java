@@ -31,7 +31,7 @@ public class Main {
 		}
 
 		String imageFile = argsMapper.map.get(Consts.IMAGE_ARG);
-		ImageOpertaions imop = new ImageOpertaions();
+		ImageOperations imop = new ImageOperations();
 		double image[][] = imop.load(imageFile);
 				
 		DistanceWeightingArgs weightingArgs = new DistanceWeightingArgs();

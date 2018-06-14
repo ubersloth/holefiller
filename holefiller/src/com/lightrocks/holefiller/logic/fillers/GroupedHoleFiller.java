@@ -13,6 +13,7 @@ public class GroupedHoleFiller implements HoleFiller {
 
 	@Override
 	public void fillHole(double[][] image, Edges edges, WeightingLogic<?> weightingLogic) {
+		
 		List<WeightingGroup> weightingGroups = weightingLogic.createWeightingGroups(1000, edges);
 		
 		for (int i = edges.min.x; i <= edges.max.x; i++) {
@@ -21,14 +22,27 @@ public class GroupedHoleFiller implements HoleFiller {
 					Point ij = new Point(i, j);
 					double weightedValueSum = 0;
 					double weightSum = 0;
+					double influentialValueSum = 0;
+					double influentialWeightSum = 0;
+					
+					List<Point> influentialPoints = weightingLogic.getMostInfluential(1000, ij, edges);
+					
+					for (Point p : influentialPoints) {
+						double weight = weightingLogic.weight(ij, p);
+						influentialValueSum += weight*p.value;
+						influentialWeightSum += weight;
+					}
 					
 					for (WeightingGroup wg : weightingGroups) {
-						double weight = weightingLogic.weight(ij, wg.getGroupRepresentative());
+						// We have to limit weight to 1, because the average point (representative) can equal Point ij
+						// This is due to the ε value in the assignment which can result in the weight far exceeding 1
+						// Not sure why we need ε, it might have been better to cap weight at a maximum of 1 instead
+						double weight = Math.min(1, weightingLogic.weight(ij, wg.getGroupRepresentative()));
 						weightedValueSum += weight*wg.getGroupRepresentative().value*wg.getCount();
 						weightSum += weight*wg.getCount();
 					}
 					
-					image[i][j] = weightedValueSum/weightSum;
+					image[i][j] = (weightedValueSum)/(weightSum);
 				}
 			}
 		}		
