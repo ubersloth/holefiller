@@ -10,6 +10,7 @@ public class NaiveEdgeFinder{
 
 		// Runtime complexity is m*n of image dimensions
 		// A more sophisticated edge finder is possible, but anyway, finding the hole initially will still cost m*n of image dimensions
+		// Also, it handles holes that are doughnut shaped or touching the sides of the image
 		for (int row = 0; row < image.length; row++) {
 			for (int col = 0; col < image[0].length; col++) {
 				if (image[row][col] != Consts.INVALID) {
