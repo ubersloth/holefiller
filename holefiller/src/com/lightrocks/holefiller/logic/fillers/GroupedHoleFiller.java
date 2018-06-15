@@ -6,18 +6,18 @@ import com.lightrocks.holefiller.Consts;
 import com.lightrocks.holefiller.interfaces.HoleFiller;
 import com.lightrocks.holefiller.interfaces.WeightingGroup;
 import com.lightrocks.holefiller.interfaces.WeightingLogic;
-import com.lightrocks.holefiller.model.Edges;
+import com.lightrocks.holefiller.model.Boundry;
 import com.lightrocks.holefiller.model.Point;
 
 public class GroupedHoleFiller implements HoleFiller {
 
 	@Override
-	public void fillHole(double[][] image, Edges edges, WeightingLogic<?> weightingLogic) {
+	public void fillHole(double[][] image, Boundry boundry, WeightingLogic<?> weightingLogic) {
 		
-		List<WeightingGroup> weightingGroups = weightingLogic.createWeightingGroups(1000, edges);
+		List<WeightingGroup> weightingGroups = weightingLogic.createWeightingGroups(1000, boundry);
 		
-		for (int i = edges.min.x; i <= edges.max.x; i++) {
-			for (int j = edges.min.y; j <= edges.max.y; j++) {
+		for (int i = boundry.min.x; i <= boundry.max.x; i++) {
+			for (int j = boundry.min.y; j <= boundry.max.y; j++) {
 				if (image[i][j] == Consts.INVALID) {				
 					Point ij = new Point(i, j);
 					double weightedValueSum = 0;

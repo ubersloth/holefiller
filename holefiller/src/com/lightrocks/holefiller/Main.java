@@ -3,11 +3,11 @@ package com.lightrocks.holefiller;
 import java.io.IOException;
 
 import com.lightrocks.holefiller.interfaces.HoleFiller;
-import com.lightrocks.holefiller.logic.NaiveEdgeFinder;
+import com.lightrocks.holefiller.logic.NaiveBoundryFinder;
 import com.lightrocks.holefiller.logic.fillers.NaiveHoleFiller;
 import com.lightrocks.holefiller.logic.weighting.DistanceWeightingArgs;
 import com.lightrocks.holefiller.logic.weighting.DistanceWeightingLogic;
-import com.lightrocks.holefiller.model.Edges;
+import com.lightrocks.holefiller.model.Boundry;
 
 public class Main {
 
@@ -40,10 +40,10 @@ public class Main {
 		DistanceWeightingLogic weightingLogic = new DistanceWeightingLogic();
 		weightingLogic.initArgs(weightingArgs);
 		
-		NaiveEdgeFinder nef = new NaiveEdgeFinder();
-		Edges edges = nef.findEdges(image);	
+		NaiveBoundryFinder nef = new NaiveBoundryFinder();
+		Boundry boundry = nef.findBoundry(image);	
 		
-		holeFiller.fillHole(image, edges, weightingLogic);
+		holeFiller.fillHole(image, boundry, weightingLogic);
 		
 		imgop.save(image, createTargetFilename(filename, argsMapper));
 	}
