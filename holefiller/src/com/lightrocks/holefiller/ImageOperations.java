@@ -38,10 +38,13 @@ public class ImageOperations {
 		for (int i = 0; i < image.getHeight(); i++) {
 			for (int j = 0; j < image.getWidth(); j++) {
 				int component = (int)(imageMatrix[i][j]*255);
+				component = Math.max(component, 0);
+				component = Math.min(component, 255);
 				image.setRGB(j, i, new Color(component, component, component).getRGB());				
 			}
 		}
 
-		ImageIO.write(image, "png", file);
+		String suffix = path.substring(path.lastIndexOf(".")+1).trim();
+		ImageIO.write(image, suffix.isEmpty() || path.lastIndexOf(".") == -1 ? "png" : suffix, file);
 	}
 }

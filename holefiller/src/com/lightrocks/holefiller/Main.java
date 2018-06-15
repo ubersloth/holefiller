@@ -22,6 +22,7 @@ public class Main {
 		
 		HoleFiller holeFiller = null;
 		
+		// Load hole filler dynamically
 		if (!argsMapper.map.containsKey(Consts.HOLE_FILLER_ARG)) {
 			holeFiller = new NaiveHoleFiller();
 		}
@@ -30,9 +31,9 @@ public class Main {
 					argsMapper.map.get(Consts.HOLE_FILLER_ARG)).newInstance();
 		}
 
-		String imageFile = argsMapper.map.get(Consts.IMAGE_ARG);
-		ImageOperations imop = new ImageOperations();
-		double image[][] = imop.load(imageFile);
+		String filename = argsMapper.map.get(Consts.IMAGE_ARG);
+		ImageOperations imgop = new ImageOperations();
+		double image[][] = imgop.load(filename);
 				
 		DistanceWeightingArgs weightingArgs = new DistanceWeightingArgs();
 		weightingArgs.parseArgs(argsMapper);
@@ -44,12 +45,15 @@ public class Main {
 		
 		holeFiller.fillHole(image, edges, weightingLogic);
 		
-		imop.save(image, createTargetFilename(imageFile, argsMapper));
+		imgop.save(image, createTargetFilename(filename, argsMapper));
 	}
 	
-	public static String createTargetFilename(String imageFile, ArgsMapper argsMapper) {
-		String prefix = imageFile.substring(0, imageFile.lastIndexOf("."));
-		String argString = String.join("-", argsMapper.map.values().toArray(new String[]{})).replace(imageFile + "-", "").replace(imageFile, "");
+	public static String createTargetFilename(String baseName, ArgsMapper argsMapper) {
+		if (argsMapper.map.containsKey(Consts.OUTPUT_ARG) && !argsMapper.map.get(Consts.OUTPUT_ARG).isEmpty()) {
+			return argsMapper.map.get(Consts.OUTPUT_ARG);
+		}
+		String prefix = baseName.substring(0, baseName.lastIndexOf("."));
+		String argString = String.join("-", argsMapper.map.values().toArray(new String[]{})).replace(baseName + "-", "").replace(baseName, "");
 		return prefix + "-" + argString + "-" + System.currentTimeMillis() + ".png";		
 	}		
 }

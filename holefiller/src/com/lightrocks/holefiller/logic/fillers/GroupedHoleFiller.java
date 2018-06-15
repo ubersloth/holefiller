@@ -22,16 +22,6 @@ public class GroupedHoleFiller implements HoleFiller {
 					Point ij = new Point(i, j);
 					double weightedValueSum = 0;
 					double weightSum = 0;
-					double influentialValueSum = 0;
-					double influentialWeightSum = 0;
-					
-					List<Point> influentialPoints = weightingLogic.getMostInfluential(1000, ij, edges);
-					
-					for (Point p : influentialPoints) {
-						double weight = weightingLogic.weight(ij, p);
-						influentialValueSum += weight*p.value;
-						influentialWeightSum += weight;
-					}
 					
 					for (WeightingGroup wg : weightingGroups) {
 						// We have to limit weight to 1, because the average point (representative) can equal Point ij
@@ -42,7 +32,7 @@ public class GroupedHoleFiller implements HoleFiller {
 						weightSum += weight*wg.getCount();
 					}
 					
-					image[i][j] = (weightedValueSum)/(weightSum);
+					image[i][j] = weightedValueSum/weightSum;
 				}
 			}
 		}		
